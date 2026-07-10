@@ -141,11 +141,12 @@ interface GigabitEthernet3/0
 
 ### BGP GTSM 
 
-In this screenshot, it shows the minimum TTL to be 254, which means that GTSM was correctly implemented. The standard TTL value is set to 255, which decrements after one hop to the value 254. If the packet was sent from a peer more than one hop away, the packet is dropped.
+In this screenshot, it shows the minimum TTL to be 254, which means that GTSM was correctly implemented. The standard TTL value is set to 255, which decrements after one hop to the value 254. If the packet was sent from a peer more than one hop away, the packet is dropped. For outbound packets, it will send outgoing traffic with a TTL of 255.
 ![Alt Text](images/ShowTTL.png)
 
 ### CoPP
 
+This screenshot shows the performance of the Control Plane Policy, where a DoS attack was simulated against the PE. Only 115 packets were allowed through the threshold, and 1282 packets were discarded.
 ![Alt Text](images/PEControlPlane.png)
 
 ### uPRF
