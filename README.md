@@ -141,7 +141,7 @@ interface GigabitEthernet3/0
 
 ### BGP GTSM 
 
--The minim
+In this screenshot, it shows the minimum TTL to be 254, which means that GTSM was correctly implemented. The standard TTL value is set to 255, which decrements after one hop to the value 254. If the packet was sent from a peer more than one hop away, the packet is dropped.
 ![Alt Text](images/ShowTTL.png)
 
 ### CoPP
