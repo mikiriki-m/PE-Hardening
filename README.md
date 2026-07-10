@@ -144,6 +144,9 @@ interface GigabitEthernet3/0
 In this screenshot, it shows the minimum TTL to be 254, which means that GTSM was correctly implemented. The standard TTL value is set to 255, which decrements after one hop to the value 254. If the packet was sent from a peer more than one hop away, the packet is dropped. For outbound packets, it will send outgoing traffic with a TTL of 255.
 ![Alt Text](images/ShowTTL.png)
 
+RP PAS TTL expired shows 926 Punt2Host, where that number of packets arrived with expired TTLs, therefore they were dropped.
+![Alt Text](images/ShowVPN1.png)
+
 ### CoPP
 
 This screenshot shows the performance of the Control Plane Policy, where a DoS attack was simulated against the PE. Only 115 packets were allowed through the threshold, and 1282 packets were discarded.
@@ -151,4 +154,26 @@ This screenshot shows the performance of the Control Plane Policy, where a DoS a
 
 ### uPRF
 
+RP PAS features indicate 82152 drops. This indicates that the spoofed packets failed the reverse source check.
+![Alt Text](images/ShowVPN1.png)
+
+An attempt of an IP spoofing attack from CE1. CE1 is targeting a core link (10.1.13.3) with a modified header (8.8.8.8).
+uPRF checks the source address in the routing table, and the interface that belongs to the header points to the core internet, not the customer interface. Therfore, the packet is dropped.
+![Alt Text](images/PingLoopback.png)
+
 ### ACL
+
+An attempt to ping internal networks. This is caught and mitigated by the rules defined in the ACL:
+```
+deny ip any host 1.1.1.1
+deny ip any 10.1.13.0 0.0.0.255
+```
+![Alt Text](images/CEPing.png)
+
+### DoS Attack
+
+The DoS attack was mitigated primarily by the ACL. This is because the success rate is exactly 0%. A rate limiter would have allowed 2% or 5% of traffic to pass through before the threshold is reached and began to drop inbound packets.
+![Alt Text](images/DDoS_1.png)
+![Alt Text](images/DDoS_2.png)
+
+To target the CoPP, the attacker would have to target the internal gateway (10.1.11.2) which would allow packets through the ACL, but due to the volume of requests in a DoS attack, the CoPP would limit the rate of packets allowed through the network.
