@@ -84,7 +84,6 @@ policy-map POLICY_COPP
 ```
 control-plane
  service-policy input POLICY_COPP
-
 ```
 
 ### uRPF
