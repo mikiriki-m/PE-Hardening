@@ -100,4 +100,54 @@ interface GigabitEthernet3/0
  ip verify unicast source reachable-via rx
 ```
 
-### iACL
+### ACLs
+
+ACL for CE1
+1. Allow BGP to the local peering address
+2. Allow ICMP only to the local gateway
+3. Deny CE1 from trying to access the loopback address
+4. Deny CE1 from trying to access the core link
+5. Allow all normal traffic to the external VPN
+```
+ip access-list extended CE1_SECURITY_IN
+ permit tcp host 10.1.11.1 host 10.1.11.2 eq bgp
+ permit icmp host 10.1.11.1 host 10.1.11.2
+ deny ip any host 1.1.1.1
+ deny ip any 10.1.13.0 0.0.0.255
+ permit ip any any
+```
+
+ACL for CE2 
+- Same rules as C1
+```
+ip access-list extended CE2_SECURITY_IN
+ permit tcp host 10.1.12.1 host 10.1.12.2 eq bgp
+ permit icmp host 10.1.12.1 host 10.1.12.2
+ deny ip any host 1.1.1.1
+ deny ip any 10.1.13.0 0.0.0.255
+ permit ip any any
+```
+
+Apply the ACLs inbound on the CE interfaces
+```
+interface GigabitEthernet2/0
+ ip access-group CE1_SECURITY_IN in
+
+interface GigabitEthernet3/0
+ ip access-group CE2_SECURITY_IN in
+```
+
+# Verification
+
+### BGP GTSM 
+
+-The minim
+![Alt Text](images/ShowTTL.png)
+
+### CoPP
+
+![Alt Text](images/PEControlPlane.png)
+
+### uPRF
+
+### ACL
