@@ -14,8 +14,8 @@ Using the existing Topology from the Inter-AS-MPLS-VPN Lab, security measures we
 ### BGP GTSM
 
 BGP GTSM is a security mechanism which is designed to protect against CPU-utilisation attacks by validating the TTL (Time To Live) value. The TTL value determines the lifespan of the data. When the TTL reaches 0, the packet is discarded. GTSM works by verifying the TTL value (which is usually set at 255) and the TTL hop value (usually set to 1).
--GTSM is configured on both ends of a BGP connection
--Valid TTL hops must match on both ends of the connection
+- GTSM is configured on both ends of a BGP connection
+- Valid TTL hops must match on both ends of the connection
 
 ```
 router bgp 1
